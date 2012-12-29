@@ -3,6 +3,7 @@ from sht1x.Sht1x import Sht1x as SHT1x
 from Adafruit_CharLCD import Adafruit_CharLCD
 from time import localtime, strftime, sleep
 import RPi.GPIO as GPIO
+import sys
 
 dataPin = 7
 clkPin = 12
