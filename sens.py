@@ -11,7 +11,7 @@ clkPin = 12
 while True:
 
   # Get data from SHT11
-  GPIO.setmode(GPIO.BOARD)
+  # GPIO.setmode(GPIO.BOARD)
   sht1x = SHT1x(dataPin, clkPin)
   temperature = sht1x.read_temperature_C()
   humidity = sht1x.read_humidity()
@@ -22,6 +22,7 @@ while True:
 
   # Format time
   curtime = strftime("%H:%M", localtime())
+  curdate = strftime("%Y-%m-%d", localtime())
 
   # Setup LCD
   lcd = Adafruit_CharLCD()
@@ -31,7 +32,7 @@ while True:
   # Show the data
   lcd.message("T: {:2.2f}\xDFC H: {:2.2f}%\nD: {:2.2f}\xDFC T: {}".format(temperature, humidity, dewPoint, curtime))
   # print("T: {:2.2f}\xC2\xB0C H: {:2.2f}%\nD: {:2.2f}\xB0C T: {}".format(temperature, humidity, dewPoint, curtime))
-  print("Time: {} Temperature: {:2.2f}\xC2\xB0C Humiditiy: {:2.2f}% Dew Point: {:2.2f}\xC2\xB0C".format(curtime, temperature, humidity, dewPoint))
+  print("Date: {} Time: {} Temperature: {:2.2f}\xC2\xB0C Humiditiy: {:2.2f}% Dew Point: {:2.2f}\xC2\xB0C".format(curdate, curtime, temperature, humidity, dewPoint))
   
   # Flush output, needed to get output if ran with nohup 
   sys.stdout.flush()
