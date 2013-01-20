@@ -1,3 +1,9 @@
+Overview
+========
+This code will read the temperature and humidity. The results will
+be printed and stored in a MySQL database. There are a few graphs
+based on the data in the database.
+
 Setup
 =====
 The setup I created this project for is the following:
@@ -29,11 +35,19 @@ be done on a machine wich can access the database.
 
 Requirements
 ============
+On the database macine:
 - MySQL (Tested with 5.5)
-- MySQL Connector/Python
+
+On the machine which does the collection:
 - Python
+- MySQL Connector/Python
 - Adafruit CharLCD
 - rpiSht1x
+
+On the machine which generates the graphs:
+- Python
+- MySQL Connector/Python
+- matplotlib
 
 References
 ==========
@@ -42,3 +56,4 @@ References
 - http://pypi.python.org/pypi/rpiSht1x
 - https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code
 - https://dev.mysql.com/doc/relnotes/connector-python/en/index.html
+- http://matplotlib.org/
