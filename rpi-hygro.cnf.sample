@@ -1,5 +1,12 @@
+[General]
+sampleinterval=60
+
 [Database]
 user=root
 password=secret
 host=localhost
 schema=rpihygro
+
+[sht1x]
+datapin=7
+clkpin=12

@@ -2,23 +2,26 @@
 from sht1x.Sht1x import Sht1x as SHT1x
 from Adafruit_CharLCD import Adafruit_CharLCD
 from time import localtime, strftime, sleep
-import RPi.GPIO as GPIO
 import sys
 import mysql.connector
 from mysql.connector import errorcode
+import ConfigParser
 
-dataPin = 7
-clkPin = 12
+config = ConfigParser.ConfigParser()
+config.read('rpi-hygro.cnf')
+dbuser = config.get('Database','user')
+dbpass = config.get('Database','password')
+dbhost = config.get('Database','host')
+dbname = config.get('Database','schema')
+dataPin = config.getint('sht1x','datapin')
+clkPin = config.getint('sht1x','clkpin')
+interval = config.getint('General','sampleinterval')
 
-
-interval=60
 totalcount=(20*60)/interval
 count = 0
 
-
 while True:
   # Get data from SHT11
-  # GPIO.setmode(GPIO.BOARD)
   sht1x = SHT1x(dataPin, clkPin)
   temperature = sht1x.read_temperature_C()
   humidity = sht1x.read_humidity()
@@ -44,8 +47,6 @@ while True:
   # Flush output, needed to get output if ran with nohup
   sys.stdout.flush()
 
-
-
   if count < totalcount:
     count += 1 
   else:
@@ -53,7 +54,7 @@ while True:
 
     try:
 # make connection with mysql, error handeling
-      conn = mysql.connector.connect(user="user", passwd="password", db="database")
+      conn = mysql.connector.connect(user=dbuser, password=dbpass, host=dbhost, database=dbhost)
     except mysql.connector.Error as err:
       if err.errno == errorcode.ER_ACCES_DENIED_ERROR:
         print ("Wrong username or password")
