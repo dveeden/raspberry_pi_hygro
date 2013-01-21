@@ -53,7 +53,7 @@ while True:
     count = 0
 
     try:
-      conn = mysql.connector.connect(user=dbuser, password=dbpass, host=dbhost, database=dbhost)
+      conn = mysql.connector.connect(user=dbuser, password=dbpass, host=dbhost, database=dbname)
     except mysql.connector.Error as err:
       if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print ("Wrong username or password")
@@ -63,10 +63,13 @@ while True:
         print (err)
 
 # put data in database
-    cursor = conn.cursor()
-    add_data = ("insert into sensor_readings (temperature, humidity) values (%s, %s)")
-    sensor_data = (temperature, humidity)
-    cursor.execute(add_data, sensor_data)
+    try:
+      cursor = conn.cursor()
+      add_data = ("insert into sensor_readings (temperature, humidity) values (%s, %s)")
+      sensor_data = (temperature, humidity)
+      cursor.execute(add_data, sensor_data)
+    except NameError, msg:
+      print "Error: %s" % msg
 
 # commit data and close connection with mysql
     conn.commit()
