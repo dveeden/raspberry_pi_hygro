@@ -53,10 +53,9 @@ while True:
     count = 0
 
     try:
-# make connection with mysql, error handeling
       conn = mysql.connector.connect(user=dbuser, password=dbpass, host=dbhost, database=dbhost)
     except mysql.connector.Error as err:
-      if err.errno == errorcode.ER_ACCES_DENIED_ERROR:
+      if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print ("Wrong username or password")
       elif err.errno == errorcode.ER_BAD_DB_ERROR:
         print ("Wrong database name")
