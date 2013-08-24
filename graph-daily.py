@@ -23,30 +23,42 @@ except mysql.connector.errors.InterfaceError, msg:
 cursor = cnx.cursor()
 query = ('''SELECT 
 		time date,
-		CONCAT(LPAD(HOUR(time),2,"0"), ":", LPAD(MINUTE(time),2,0)) time,
-		humidity,
-		temperature
+		min(humidity) mihum,
+		max(humidity) mahum,
+		avg(humidity) ahum,
+		min(temperature) mitmp,
+		max(temperature) matmp,
+		avg(temperature) atmp
 	FROM 
 		sensor_readings
 	GROUP BY 
-		DATE(time),
-		HOUR(time),
-		FLOOR(MINUTE(time) / 10)''')
+		DATE(time)''')
 cursor.execute(query)
 
 d = []
-h = []
-temp = []
-for (date,dtime,humidity,temperature) in cursor:
+mihum = []
+mahum = []
+ahum = []
+mitmp = []
+matmp = []
+atmp = []
+for (date,xmihum,xmahum,xahum,xmitmp,xmatmp,xatmp) in cursor:
   d.append(date)
-  h.append(humidity)
-  temp.append(temperature)
-#  time.sleep(0.00001)
+  mihum.append(xmihum)
+  mahum.append(xmahum)
+  ahum.append(xahum)
+  mitmp.append(xmitmp)
+  matmp.append(xmatmp)
+  atmp.append(xatmp)
 cursor.close()
 
 title('Humidity and Temperature')
 grid(True)
-p1 = plot_date(d, h, 'r-', label='Humidity')
-p2 = plot_date(d, temp, 'b-', label='Temperature')
+p1 = plot_date(d, mihum, 'r-', label='Min Humidity')
+p2 = plot_date(d, mahum, 'g-', label='Max Humidity')
+p3 = plot_date(d, ahum, 'b-', label='Avg Humidity')
+p4 = plot_date(d, mitmp, 'r-', label='Min Temperature')
+p4 = plot_date(d, matmp, 'g-', label='Max Temperature')
+p4 = plot_date(d, atmp, 'b-', label='Avg Temperature')
 legend()
 show()
