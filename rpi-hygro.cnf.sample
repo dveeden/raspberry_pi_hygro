@@ -10,3 +10,8 @@ schema=rpihygro
 [sht1x]
 datapin=7
 clkpin=12
+
+[forecastio]
+api_key = "YOUR_API_KEY"
+lat = some_float
+lng = some_float
